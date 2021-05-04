@@ -1,6 +1,6 @@
 {
   "name": "Api Node",
   "description": "Probando API en Heroku",
-  "repository": "https://github.com/JuanpiiFogliaco/backen-node",
+  "repository": "https://github.com/JuanpiiFogliaco/backen-practica",
   "image": "heroku/nodejs"
 }

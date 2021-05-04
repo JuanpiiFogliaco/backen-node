@@ -7,7 +7,7 @@ require("dotenv").config();
 const dashboadRoutes = require('./routes/dashboard');
 const verifyToken = require('./routes/validate-token');
 
-
+//
 const app = express();
 
 // route middlewares
