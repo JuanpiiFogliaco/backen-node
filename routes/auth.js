@@ -19,7 +19,7 @@ const schemaLogin = Joi.object({
   password: Joi.string().min(6).max(1024).required(),
 });
 
-router.post("/register", async (req, res) => {
+router.post("/api/register", async (req, res) => {
   // validate user
   const { error } = schemaRegister.validate(req.body);
 
@@ -52,7 +52,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-router.post("/login", async (req, res) => {
+router.post("/api/login", async (req, res) => {
   // validaciones
   const { error } = schemaLogin.validate(req.body);
   if (error) return res.status(400).json({ error: error.details[0].message });
