@@ -4,14 +4,14 @@ const bodyparser = require("body-parser");
 require("dotenv").config();
 
 // import routes
-const dashboadRoutes = require('./routes/dashboard');
-const verifyToken = require('./routes/validate-token');
+const dashboadRoutes = require("./routes/dashboard");
+const verifyToken = require("./routes/validate-token");
 
 //
 const app = express();
 
 // route middlewares
-app.use('/api/dashboard', verifyToken, dashboadRoutes);
+app.use("/api/dashboard", verifyToken, dashboadRoutes);
 
 // capturar body
 app.use(bodyparser.urlencoded({ extended: false }));
@@ -29,6 +29,7 @@ const authRoutes = require("./routes/auth");
 
 // route middlewares
 app.use("/api/user", authRoutes);
+app.get("/", "asd");
 
 // iniciar server
 const PORT = process.env.PORT || 3001;
@@ -37,9 +38,9 @@ app.listen(PORT, () => {
 });
 
 // cors
-const cors = require('cors');
+const cors = require("cors");
 var corsOptions = {
-    origin: 'https://backen-node.herokuapp.com/', // Reemplazar con dominio
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
+  origin: "https://backen-node.herokuapp.com/", // Reemplazar con dominio
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
 app.use(cors(corsOptions));
