@@ -1,46 +1,61 @@
+/*-Mocks---------------------------------------------*/
+const notes = require("./mocks/notes.json");
+const Notas = require("./models/Notas");
+/*-Configs------------------------------------------*/
 const express = require("express");
-const mongoose = require("mongoose");
-const bodyparser = require("body-parser");
-require("dotenv").config();
-
-// import routes
-const dashboadRoutes = require("./routes/dashboard");
-const verifyToken = require("./routes/validate-token");
-
-//
 const app = express();
+const cors = require('cors')
+app.use(cors())
+app.use(express.json());
+require("./config/conexionDB");
+const router = express.Router();
+require("dotenv").config();
+const logger = require("./loggerMiddleware");
+/* -Logger-----------------------------------------*/
+app.use(logger);
+/* -Routes-----------------------------------------*/
+//GET ALL
+app.get("/api/notes", (req, res) => {
+  res.json(notes);
+});
+//GET ONE
+app.get("/api/notes/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const note = notes.find((note) => note.id === id);
+  if (note) {
+    res.json(note);
+  } else {
+    res.status(404).end();
+  }
+});
+//POST ONE POST :P
+app.post("/api/notes", (req, res) => {
+  const note = req.body;
+  console.log("NOTE", note);
+  if (!note || !note.title) {
+    return res.status(400).json({
+      error: "Note.content is missing",
+    });
+  }
 
-// route middlewares
-app.use("/api/dashboard", verifyToken, dashboadRoutes);
+  const newNota = {
+    id: note.id,
+    title: note.title,
+  };
 
-// capturar body
-app.use(bodyparser.urlencoded({ extended: false }));
-app.use(bodyparser.json());
+  res.json(newNota);
+});
 
-// Conexión a Base de datos
-const uri = `mongodb+srv://juanpii:riverplate@cluster0.4rwvg.mongodb.net/Cluster0?retryWrites=true&w=majority`;
-mongoose
-  .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("Base de datos conectada"))
-  .catch((e) => console.log("error db:", e));
+app.use((req, res) => {
+  res.status(404).json({
+    error: "Not found!",
+  });
+});
 
-// import routes
-const authRoutes = require("./routes/auth");
-
-// route middlewares
-app.use("/api/user", authRoutes);
-app.get("/", "asd");
-
-// iniciar server
+/* -Server-----------------------------------------*/
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`servidor andando en: ${PORT}`);
 });
 
-// cors
-const cors = require("cors");
-var corsOptions = {
-  origin: "https://backen-node.herokuapp.com/", // Reemplazar con dominio
-  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-};
-app.use(cors(corsOptions));
+module.exports = router;
