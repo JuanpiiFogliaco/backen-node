@@ -1,1 +1,2 @@
-GET http://localhost:3001/api/notes
+GET http://localhost:3002/api/notes/
+Authorization: {{$eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYnVlbm9xYWFhIiwiaWQiOiI2MDlkOGFmNWQ5YTc3NWY0ZjExMjliNGUiLCJpYXQiOjE2MjA5Mzc4NDh9.m-jKj9DgmOvAkRkfbdflo2sVPJsxYgnuxsgUKZM9x6A}}
